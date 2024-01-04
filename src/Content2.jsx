@@ -1,5 +1,7 @@
-import React from 'react';
-import Autocomplete from './Autocomplete';
+import React from "react";
+import Autocomplete from "./Autocomplete";
+import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
+import "react-tabs/style/react-tabs.css";
 
 const Content = ({
   inpWord,
@@ -13,6 +15,8 @@ const Content = ({
   suggestions,
   onSelectSuggestion,
   searchHistory,
+  TOEFL,
+  IELTS,
 }) => {
   const onSubmitSearch = (event) => {
     event.preventDefault();
@@ -23,12 +27,22 @@ const Content = ({
     setInpWord(term);
     handleSearchWord(term);
   };
+  const handleClickIELTS = (lemma) => {
+    handleSearchWord(lemma);
+  };
+  const handleClickTOEFL = (lemma) => {
+    handleSearchWord(lemma);
+  };
 
   return (
     <div className="dictionary-app">
       <header className="header">
-        <p>BITS <span>- English Dictionary</span></p>
-        <button className="au-button"><a href="/Signup">Logout</a></button>
+        <p>
+          BITS <span>- English Dictionary</span>
+        </p>
+        <button className="au-button">
+          <a href="/">Logout</a>
+        </button>
       </header>
 
       <form className="search-box" onSubmit={onSubmitSearch}>
@@ -39,31 +53,82 @@ const Content = ({
           onSelect={onSelectSuggestion}
         />
         <button type="submit" disabled={isLoading}>
-          {isLoading ? 'Searching...' : 'Search'}
+          {isLoading ? "Searching..." : "Search"}
         </button>
       </form>
-      
-      {/* Display Search History */}
 
-
+      {/* Display Main Tabs*/}
       <div className="cross-section">
-        <div className='half-left-section'>
-            <div className='history-section'>
-              {searchHistory.length > 0 && (
-              <div className="search-history-section">
-                <h2>Search History</h2>
-                <ul>
-                  {searchHistory.map((term, index) => (
-                    <li key={index} onClick={() => handleClickHistory(term)}>
-                      {term}
-                    </li>
+        <div className="half-left-section">
+          {/*Tabs */}
+          <Tabs>
+            <TabList className={"MainTabs"}>
+              <Tab>Search History</Tab>
+              <Tab>TOEFL</Tab>
+              <Tab>IELTS</Tab>
+              <Tab>Favorite</Tab>
+            </TabList>
+
+            <TabPanel>
+              <p>
+                {" "}
+                <div className="history-section">
+                  {searchHistory.length > 0 && (
+                    <div className="search-history-section">
+                      <h2>Search History</h2>
+                      <ul>
+                        {searchHistory.map((term, index) => (
+                          <li
+                            key={index}
+                            onClick={() => handleClickHistory(term)}
+                          >
+                            {term}
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  )}
+                </div>
+              </p>
+            </TabPanel>
+            <TabPanel>
+              {/* Display TOEFL */}
+              {TOEFL && TOEFL.length > 0 && (
+                <div className="search-history-section">
+                  <h2>TOEFL</h2>
+                  <ul>
+                    {TOEFL.map((lemma, index) => (
+                      <li key={index} onClick={() => handleClickTOEFL(lemma)}>
+                        {lemma}
+                      </li>
                     ))}
-                </ul>
-              </div>
+                  </ul>
+                </div>
               )}
-            </div>
+            </TabPanel>
+            <TabPanel>
+              {/* Display IELTS */}
+              {IELTS && IELTS.length > 0 && (
+                <div className="search-history-section">
+                  <h2>IELTS</h2>
+                  <ul>
+                    {IELTS.map((lemma, index) => (
+                      <li key={index} onClick={() => handleClickIELTS(lemma)}>
+                        {lemma}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+            </TabPanel>
+            <TabPanel>
+              <p>
+                <b>Favortie</b>
+              </p>
+            </TabPanel>
+          </Tabs>
         </div>
-        <div className='half-right-section'>
+        <div className="half-right-section">
           <h2>Search Results</h2>
           <div className="search-results-container">
             {error && <div className="error">{error}</div>}
@@ -74,23 +139,48 @@ const Content = ({
                   {/* Audio will be put here later */}
                 </div>
                 <div className="meaning">
-                  <p className="result-definition"><span>Definitions: </span>{wordData.definition}</p>
-                  <p> <span className='syn'>Synonyms: </span>{wordData.synonyms && wordData.synonyms.split(', ').join(', ')}</p>
-                  <p> <span className='ant'>Antonyms: </span> {wordData.antonyms && wordData.antonyms.split(', ').join(', ')}</p>
+                  <p className="result-definition">{wordData.definition}</p>
+                  <p>
+                    <span className="syn">
+                      Synonyms:{" "}
+                      {wordData.synonyms ? (
+                        wordData.synonyms &&
+                        wordData.synonyms.split(", ").join(", ")
+                      ) : (
+                        <p>"There's no matched synonyms"</p>
+                      )}
+                    </span>
+                  </p>
+                  <p>
+                    <span className="ant">
+                      Antonyms:{" "}
+                      {wordData.antonyms ? (
+                        wordData.antonyms &&
+                        wordData.antonyms.split(", ").join(", ")
+                      ) : (
+                        <p>"There's no matched antonyms"</p>
+                      )}
+                    </span>
+                  </p>
                 </div>
               </div>
-          )}
+            )}
           </div>
           <br></br>
           <div className="todays-sentence">
-          <h2>Today's Sentence</h2>
-          {/* Check if randomWord is defined before trying to access its properties */}
-          <p>{randomWord ? `${randomWord.lemma}: ${randomWord.definition}` : 'Loading...'}</p>
-        </div>
+            <h2>Today's Sentence</h2>
+            {/* Check if randomWord is defined before trying to access its properties */}
+            <p>
+              {randomWord
+                ? `${randomWord.lemma}: ${randomWord.definition}`
+                : "Loading..."}
+            </p>
+          </div>
         </div>
       </div>
+
       <footer className="footer">© 2023 Bitsdictionary.com</footer>
-  </div>
+    </div>
   );
 };
 
