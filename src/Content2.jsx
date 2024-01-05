@@ -18,6 +18,28 @@ const Content = ({
   TOEFL,
   IELTS,
 }) => {
+  /*Blur button function JS*/
+  const blurResultWord = () => {
+    var wordMeaning = document.getElementsByClassName("result-word");
+    for (var i = 0; i < wordMeaning.length; i++) {
+      if (wordMeaning[i].style.backgroundColor === "black") {
+        wordMeaning[i].style.backgroundColor = "";
+      } else {
+        wordMeaning[i].style.backgroundColor = "black";
+      }
+    }
+  };
+  const blurResultDefinition = () => {
+    var wordMeaning = document.getElementsByClassName("result-definition");
+    for (var i = 0; i < wordMeaning.length; i++) {
+      if (wordMeaning[i].style.backgroundColor === "black") {
+        wordMeaning[i].style.backgroundColor = "";
+      } else {
+        wordMeaning[i].style.backgroundColor = "black";
+      }
+    }
+  };
+
   const onSubmitSearch = (event) => {
     event.preventDefault();
     handleSearchWord(inpWord);
@@ -167,6 +189,15 @@ const Content = ({
             )}
           </div>
           <br></br>
+          <button className="au-button" onClick={blurResultWord}>
+            Blur Word
+          </button>
+          <button
+            className="au-button blur-button"
+            onClick={blurResultDefinition}
+          >
+            Blur Definition
+          </button>
           <div className="todays-sentence">
             <h2>Today's Sentence</h2>
             {/* Check if randomWord is defined before trying to access its properties */}
