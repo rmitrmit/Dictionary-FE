@@ -18,7 +18,6 @@ const Content = ({
   TOEFL,
   IELTS,
 }) => {
-  /*Blur button function JS*/
   const blurResultWord = () => {
     var wordMeaning = document.getElementsByClassName("result-word");
     for (var i = 0; i < wordMeaning.length; i++) {
@@ -58,9 +57,11 @@ const Content = ({
   return (
     <div className="dictionary-app">
       <header className="header">
-        <p>
-          BITS <span>- English Dictionary</span>
-        </p>
+        <a href="/" className="logo">
+          <p>
+            BITS <span>- English Dictionary</span>
+          </p>
+        </a>
         <div className="ath-buttons">
           <button className="au-button">
             <a href="/Login">Login</a>
@@ -93,7 +94,6 @@ const Content = ({
               <Tab>TOEFL</Tab>
               <Tab>IELTS</Tab>
             </TabList>
-
             <TabPanel>
               <p>
                 {" "}
@@ -148,8 +148,10 @@ const Content = ({
             </TabPanel>
           </Tabs>
         </div>
+
         <div className="half-right-section">
           <h2>Search Results</h2>
+
           <div className="search-results-container">
             {error && <div className="error">{error}</div>}
             {wordData && (
@@ -185,17 +187,18 @@ const Content = ({
                 </div>
               </div>
             )}
+            <div className="blur-buttons">
+              {" "}
+              <button className="au-button" onClick={blurResultWord}>
+                Blur Word
+              </button>
+              <button className="au-button" onClick={blurResultDefinition}>
+                Blur Definition
+              </button>
+            </div>
           </div>
+
           <br></br>
-          <button className="au-button" onClick={blurResultWord}>
-            Blur Word
-          </button>
-          <button
-            className="au-button blur-button"
-            onClick={blurResultDefinition}
-          >
-            Blur Definition
-          </button>
           <div className="todays-sentence">
             <h2>Today's Sentence</h2>
             {/* Check if randomWord is defined before trying to access its properties */}

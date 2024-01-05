@@ -18,7 +18,6 @@ const Content = ({
   TOEFL,
   IELTS,
 }) => {
-  /*Blur button function JS*/
   const blurResultWord = () => {
     var wordMeaning = document.getElementsByClassName("result-word");
     for (var i = 0; i < wordMeaning.length; i++) {
@@ -39,7 +38,6 @@ const Content = ({
       }
     }
   };
-
   const onSubmitSearch = (event) => {
     event.preventDefault();
     handleSearchWord(inpWord);
@@ -187,17 +185,17 @@ const Content = ({
                 </div>
               </div>
             )}
+            <div className="blur-buttons">
+              {" "}
+              <button className="au-button" onClick={blurResultWord}>
+                Blur Word
+              </button>
+              <button className="au-button" onClick={blurResultDefinition}>
+                Blur Definition
+              </button>
+            </div>
           </div>
           <br></br>
-          <button className="au-button" onClick={blurResultWord}>
-            Blur Word
-          </button>
-          <button
-            className="au-button blur-button"
-            onClick={blurResultDefinition}
-          >
-            Blur Definition
-          </button>
           <div className="todays-sentence">
             <h2>Today's Sentence</h2>
             {/* Check if randomWord is defined before trying to access its properties */}
