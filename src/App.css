@@ -6,7 +6,7 @@
   border-radius: 1vh;
   background-color: #e7e7e7;
   border: 1px solid #cacaca;
-  box-shadow: inset 0 0 6px rgba(0, 0, 0, .3);
+  box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
 }
 
 ::-webkit-scrollbar-thumb {
@@ -14,11 +14,11 @@
   background-color: #363636;
 }
 @font-face {
-  font-family: 'Rocher';
+  font-family: "Rocher";
   src: url(https://assets.codepen.io/9632/RocherColorGX.woff2);
 }
 /* background */
-.dictionary-app{
+.dictionary-app {
   background: url(./component/img/Background.png);
   background-size: cover;
 }
@@ -27,65 +27,73 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  background-color:skyblue;
+  background-color: skyblue;
   height: fit-content;
   text-align: center;
   font-size: 30px;
   font-weight: bold;
   width: 100%;
-  box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;}
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px,
+    rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;
+}
 
-.header p{
+.header p {
   color: rgb(238, 119, 0);
-  font-family: 'Rocher';
+  font-family: "Rocher";
   margin: 1rem;
   font-size: 35px;
 }
 
-.header p span{
+.header p span {
   font-size: 25px;
 }
 .au-button {
-    background-image: linear-gradient(92.88deg, #455EB5 9.16%, #5643CC 43.89%, #673FD7 64.72%);
-    border-radius: 8px;
-    border-style: none;
-    box-sizing: border-box;
-    cursor: pointer;
-    flex-shrink: 0;
-    font-family: "Inter UI","SF Pro Display",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen,Ubuntu,Cantarell,"Open Sans","Helvetica Neue",sans-serif;
-    font-size: 16px;
-    font-weight: 500;
-    height: 5vh;
-    padding: 0 1.6rem;
-    text-align: center;
-    text-shadow: rgba(0, 0, 0, 0.25) 0 3px 8px;
-    transition: all .5s;
-    user-select: none;
-    -webkit-user-select: none;
-    touch-action: manipulation;
-    margin: 5px;
-    width: 6vw;
+  background-image: linear-gradient(
+    92.88deg,
+    #455eb5 9.16%,
+    #5643cc 43.89%,
+    #673fd7 64.72%
+  );
+  border-radius: 8px;
+  border-style: none;
+  box-sizing: border-box;
+  cursor: pointer;
+  flex-shrink: 0;
+  font-family: "Inter UI", "SF Pro Display", -apple-system, BlinkMacSystemFont,
+    "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue",
+    sans-serif;
+  font-size: 16px;
+  font-weight: 500;
+  height: 5vh;
+  padding: 0 1.6rem;
+  text-align: center;
+  text-shadow: rgba(0, 0, 0, 0.25) 0 3px 8px;
+  transition: all 0.5s;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+  margin: 5px;
+  width: 6vw;
+  align-items: center;
+}
+@media screen and (max-width: 1600px) {
+  .au-button {
+    padding: 0;
     align-items: center;
+    font-size: 15px;
   }
-  @media screen and (max-width: 1600px) {
-    .au-button {
-      padding: 0;
-      align-items: center;
-      font-size: 15px;
-    }
-    
-  }
-  .au-button:hover {
-    box-shadow: rgba(80, 63, 205, 0.5) 0 1px 30px;
-    transition-duration: .5s;
-  }
-  .au-button a{
-    text-decoration: none;
-    color: white;
-    text-align: center;
-    width: fit-content;
-  }
-  
+}
+.au-button:hover {
+  box-shadow: rgba(80, 63, 205, 0.5) 0 1px 30px;
+  transition-duration: 0.5s;
+}
+.au-button a {
+  text-decoration: none;
+  color: white;
+  text-align: center;
+  width: fit-content;
+}
+
 .dictionary-app {
   display: flex;
   flex-direction: column;
@@ -109,7 +117,6 @@
   .search-box {
     width: 70%;
   }
-  
 }
 
 .search-box input {
@@ -125,7 +132,6 @@
 @media screen and (max-width: 1200px) {
   .search-box input {
     width: 90%;
-    
   }
   .half-right-section {
     width: 50vw;
@@ -135,20 +141,21 @@
   margin: 20px;
   padding: 20px;
   font-size: 16px;
-  background-color: #4CAF50;
+  background-color: #4caf50;
   color: white;
   border: none;
   cursor: pointer;
   border-radius: 50px;
-  box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px, rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
-  margin-bottom: 0;}
+  box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px,
+    rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
+  margin-bottom: 0;
+}
 
-  @media screen and (min-width: 1601px) {
-    .search-box button {
-      margin-left: 0;
-    }
-    
+@media screen and (min-width: 1601px) {
+  .search-box button {
+    margin-left: 0;
   }
+}
 /* Autocomplete styles */
 
 .autocomplete-wrapper {
@@ -157,17 +164,17 @@
 }
 
 .autocomplete-dropdown {
-  display: none; 
+  display: none;
   position: absolute;
-  top: 100%; 
+  top: 100%;
   left: 0;
   right: 0;
   background-color: #fff;
   border: 1px solid #ddd;
-  border-top: none; 
-  z-index: 1000; 
+  border-top: none;
+  z-index: 1000;
   border-radius: 0 0 4px 4px;
-  max-height: 15vh; 
+  max-height: 15vh;
   overflow-y: auto;
   margin-top: 0;
   margin-left: 50px;
@@ -177,29 +184,28 @@
   .autocomplete-dropdown {
     width: 86%;
   }
-@media screen and (max-width: 1200px) {
-  .autocomplete-dropdown {
-    width: 80%;
+  @media screen and (max-width: 1200px) {
+    .autocomplete-dropdown {
+      width: 80%;
+    }
   }
-}
-@media screen and (max-width: 900px) {
-  .autocomplete-dropdown {
-    width: 72%;
+  @media screen and (max-width: 900px) {
+    .autocomplete-dropdown {
+      width: 72%;
+    }
   }
-}
-@media screen and (max-width: 751px) {
-  .autocomplete-dropdown {
-    width: 63%;
+  @media screen and (max-width: 751px) {
+    .autocomplete-dropdown {
+      width: 63%;
+    }
   }
-}
-@media screen and (max-width: 600px) {
-  .autocomplete-dropdown {
-    width: 70%;
-    padding-left: 5px;
-    margin-left: 47px;
+  @media screen and (max-width: 600px) {
+    .autocomplete-dropdown {
+      width: 70%;
+      padding-left: 5px;
+      margin-left: 47px;
+    }
   }
-  
-}
 }
 .autocomplete-dropdown.active {
   display: block;
@@ -217,10 +223,9 @@
   background-color: #f0f0f0;
 }
 
-
 .autocomplete-input:focus {
   outline: none;
-  border-color: #4CAF50;
+  border-color: #4caf50;
 }
 /* Footer styles */
 
@@ -239,7 +244,7 @@
 }
 
 /* Add these styles for clickable history words */
-.haft-left-section{
+.haft-left-section {
   display: flex;
   width: 100%;
 }
@@ -262,13 +267,13 @@
   margin-left: 2vw;
 }
 
-.search-results-box span{
+.search-results-box span {
   font-weight: bold;
 }
-.search-results-box .syn{
-  color: #4CAF50;
+.search-results-box .syn {
+  color: #4caf50;
 }
-.search-results-box .ant{
+.search-results-box .ant {
   color: red;
 }
 
@@ -284,7 +289,6 @@
 .search-history-section li:hover {
   color: #007bff; /* Change color on hover if needed */
 }
-
 
 /* Cross section styles */
 
@@ -326,7 +330,7 @@
 
 .search-results-box {
   background-color: white;
-  border: 2px solid #4CAF50;
+  border: 2px solid #4caf50;
   border-radius: 10px;
   padding: 20px;
   width: 100%;
@@ -352,7 +356,7 @@
 }
 
 .result-synonyms {
-  color: #4CAF50;
+  color: #4caf50;
 }
 
 .result-antonyms {
@@ -404,102 +408,101 @@
 }
 
 @media screen and (max-width: 900px) {
-  .au-button{
+  .au-button {
     font-size: 12px;
     height: 4vh;
   }
-  .cross-section{
+  .cross-section {
     align-items: normal;
     margin-bottom: 20px;
   }
-  .todays-sentence{
+  .todays-sentence {
     height: fit-content;
   }
-  .haft-left-section{
+  .haft-left-section {
     height: fit-content;
   }
-  .search-history-section ul{
+  .search-history-section ul {
     height: 70vh;
   }
-  .todays-sentence{
+  .todays-sentence {
     width: 48vw;
   }
-  .header p{
+  .header p {
     font-size: 25px;
   }
-  .header p span{
+  .header p span {
     font-size: 20px;
   }
-  .search-box input{
-   width: 85%;
+  .search-box input {
+    width: 85%;
   }
 }
 @media screen and (max-width: 751px) {
-  .cross-section{
+  .cross-section {
     flex-direction: column;
     padding-left: 20px;
     width: fit-content;
   }
-  .search-history-section{
+  .search-history-section {
     height: fit-content;
     width: fit-content;
     margin: 0;
   }
-  .search-history-section ul{
+  .search-history-section ul {
     width: 90vw;
     height: 20vh;
     margin: 0;
   }
-  .half-right-section{
+  .half-right-section {
     width: 90vw;
   }
   .history-section {
     width: fit-content;
   }
-  .todays-sentence{
+  .todays-sentence {
     width: 48vw;
   }
-  .search-box input{
-   width: 85%;
+  .search-box input {
+    width: 85%;
   }
-  .search-box button{
+  .search-box button {
     font-size: 15px;
     width: 10vh;
   }
-  .search-results-container{
+  .search-results-container {
     width: 90vw;
     margin: 0;
-    font-size: 15px
+    font-size: 15px;
   }
-  .todays-sentence{
+  .todays-sentence {
     width: 87vw;
     margin: 0;
     padding: 10px;
   }
-  .search-box input{
+  .search-box input {
     width: 80%;
   }
-  
 }
 
 @media screen and (max-width: 600px) {
-  .au-button{
+  .au-button {
     font-size: 10px;
     width: 10vw;
   }
-  .header p{
+  .header p {
     font-size: 15px;
   }
-  .header p span{
+  .header p span {
     font-size: 15px;
   }
-  .todays-sentence{
+  .todays-sentence {
     width: 85vw;
   }
-  .search-box input{
+  .search-box input {
     width: 80%;
   }
-  .search-box button{
+  .search-box button {
     width: 20vw;
     padding: 0;
     margin-left: 50px;
