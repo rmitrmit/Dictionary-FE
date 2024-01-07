@@ -118,21 +118,31 @@ const handleAddToFavorites = () => {
     try {
       const response = await fetch("http://localhost:5000/api/searchHistory");
       const data = await response.json();
-      setSearchHistory(data);
+  
+      // Use a Set to filter out duplicates
+      const uniqueSearchHistory = Array.from(new Set(data));
+  
+      setSearchHistory(uniqueSearchHistory);
     } catch (error) {
       console.error("Error fetching search history:", error);
     }
   };
+  
 
   const fetchFavorites = async () => {
     try {
       const response = await fetch("http://localhost:5000/api/favorites");
       const data = await response.json();
-      setFavorites(data);
+  
+      // Use a Set to filter out duplicates
+      const uniqueFavorites = Array.from(new Set(data));
+  
+      setFavorites(uniqueFavorites);
     } catch (error) {
       console.error("Error fetching favorites:", error);
     }
   };
+  
 
   const fetchIELTS = async () => {
     try {
