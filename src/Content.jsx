@@ -17,6 +17,8 @@ const Content = ({
   searchHistory,
   TOEFL,
   IELTS,
+  favorites,
+  handleAddToFavorites
 }) => {
   const blurResultWord = () => {
     var wordMeaning = document.getElementsByClassName("result-word");
@@ -47,12 +49,20 @@ const Content = ({
     setInpWord(term);
     handleSearchWord(term);
   };
+
+  const handleClickFavorites = (term) => {
+    setInpWord(term);
+    handleSearchWord(term);
+  };
+  
+
   const handleClickIELTS = (lemma) => {
     handleSearchWord(lemma);
   };
   const handleClickTOEFL = (lemma) => {
     handleSearchWord(lemma);
   };
+ 
 
   return (
     <div className="dictionary-app">
@@ -93,6 +103,7 @@ const Content = ({
               <Tab>Search History</Tab>
               <Tab>TOEFL</Tab>
               <Tab>IELTS</Tab>
+              <Tab>Favorites</Tab>
             </TabList>
             <TabPanel>
               <p>
@@ -116,6 +127,7 @@ const Content = ({
                 </div>
               </p>
             </TabPanel>
+            
             <TabPanel>
               {/* Display TOEFL */}
               {TOEFL && TOEFL.length > 0 && (
@@ -146,6 +158,29 @@ const Content = ({
                 </div>
               )}
             </TabPanel>
+            <TabPanel>
+              <p>
+                {" "}
+                <div className="favorites-section">
+                  {favorites.length > 0 && (
+                    <div className="favorites-section">
+                      <h2>favorites</h2>
+                      <ul>
+                        {favorites.map((term, index) => (
+                          <li
+                            key={index}
+                            onClick={() => handleClickFavorites(term)}
+                          >
+                            {term}
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  )}
+                </div>
+              </p>
+            </TabPanel>
+
           </Tabs>
         </div>
 
@@ -195,6 +230,10 @@ const Content = ({
               <button className="au-button" onClick={blurResultDefinition}>
                 Blur Definition
               </button>
+              <button className="au-button" onClick={handleAddToFavorites}>
+                Add to Favorites
+              </button>
+             
             </div>
           </div>
 
