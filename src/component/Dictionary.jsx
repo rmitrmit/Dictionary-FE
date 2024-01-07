@@ -9,10 +9,14 @@ const Dictionary = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [suggestions, setSuggestions] = useState([]);
   const [searchHistory, setSearchHistory] = useState([]);
+  const [favorites, setFavorites] = useState([]); 
   const [randomWord, setRandomWord] = useState(null);
   const [IELTS, setIELTSData] = useState([]);
   const [TOEFL, setTOEFLData] = useState([]);
 
+
+
+  
   // Today sentence added
   useEffect(() => {
     fetch("http://localhost:5000/randomWord")
@@ -35,6 +39,8 @@ const Dictionary = () => {
     fetchSearchHistory();
     fetchIELTS();
     fetchTOEFL();
+    fetchFavorites();
+
   }, []);
 
   useEffect(() => {
@@ -72,6 +78,7 @@ const Dictionary = () => {
         setSearchHistory((prevHistory) => [
           ...new Set([wordToSearch, ...prevHistory]),
         ]);
+
       })
       .catch((error) => {
         setWordData(null);
@@ -80,9 +87,31 @@ const Dictionary = () => {
       });
   };
 
+  
+const handleAddToFavorites = () => {
+  // Add the displayed word to favorites
+  setFavorites((prevFavorites) => [
+    ...new Set([inpWord, ...(Array.isArray(prevFavorites) ? prevFavorites : [])]),
+  ]);
+  
+  fetch(`http://localhost:5000/api/favorite/${inpWord}`, {
+    method: 'POST',
+  })
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error('Failed to mark word as favorite.');
+      }
+      console.log('Word marked as favorite!');
+    })
+    .catch((error) => {
+      console.error('Error marking word as favorite:', error);
+    });
+};
+
   const onSelectSuggestion = (suggestion) => {
     setInpWord(suggestion);
     handleSearchWord(suggestion);
+    
   };
 
   const fetchSearchHistory = async () => {
@@ -94,6 +123,17 @@ const Dictionary = () => {
       console.error("Error fetching search history:", error);
     }
   };
+
+  const fetchFavorites = async () => {
+    try {
+      const response = await fetch("http://localhost:5000/api/favorites");
+      const data = await response.json();
+      setFavorites(data);
+    } catch (error) {
+      console.error("Error fetching favorites:", error);
+    }
+  };
+
   const fetchIELTS = async () => {
     try {
       const response = await fetch("http://localhost:5000/api/IELTS");
@@ -128,11 +168,14 @@ const Dictionary = () => {
         randomWord={randomWord}
         isLoading={isLoading}
         handleSearchWord={handleSearchWord}
+        handleAddToFavorites={handleAddToFavorites}
         suggestions={suggestions}
         onSelectSuggestion={onSelectSuggestion}
         searchHistory={searchHistory}
         IELTS={IELTS}
         TOEFL={TOEFL}
+        favorites={favorites}
+  
       />
 
       {/* Additional content or components can be added here */}
