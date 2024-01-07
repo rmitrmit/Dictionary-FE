@@ -163,7 +163,7 @@ const Content = ({
                 {" "}
                 <div className="favorites-section">
                   {favorites.length > 0 && (
-                    <div className="favorites-section">
+                    <div className="search-history-section">
                       <h2>favorites</h2>
                       <ul>
                         {favorites.map((term, index) => (
