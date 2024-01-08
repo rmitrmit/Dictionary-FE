@@ -6,7 +6,6 @@ import "react-tabs/style/react-tabs.css";
 const Content = ({
   inpWord,
   setInpWord,
-  displayedWord,
   randomWord,
   wordData,
   error,
@@ -17,6 +16,11 @@ const Content = ({
   searchHistory,
   TOEFL,
   IELTS,
+  favorites,
+  handleAddToFavorites,
+  handleRemoveFromFavorites,
+  userSearchHistory,
+  handleClearUserSearchHistory
 }) => {
   const blurResultWord = () => {
     var wordMeaning = document.getElementsByClassName("result-word");
@@ -47,6 +51,12 @@ const Content = ({
     setInpWord(term);
     handleSearchWord(term);
   };
+
+  const handleClickFavorites = (term) => {
+    setInpWord(term);
+    handleSearchWord(term);
+  };
+  
   const handleClickIELTS = (lemma) => {
     handleSearchWord(lemma);
   };
@@ -93,20 +103,20 @@ const Content = ({
               <p>
                 {" "}
                 <div className="history-section">
-                  {searchHistory.length > 0 && (
+                  {userSearchHistory.length > 0 ? (
                     <div className="search-history-section">
-                      <h2>Search History</h2>
+                      <h2>User Search History</h2>
                       <ul>
-                        {searchHistory.map((term, index) => (
-                          <li
-                            key={index}
-                            onClick={() => handleClickHistory(term)}
-                          >
+                        {userSearchHistory.map((term, index) => (
+                          <li key={index} onClick={() => handleClickHistory(term)}>
                             {term}
                           </li>
                         ))}
                       </ul>
+                      <button onClick={handleClearUserSearchHistory}>Clear History</button>
                     </div>
+                  ) : (
+                    <p>No search history found.</p>
                   )}
                 </div>
               </p>
@@ -142,9 +152,21 @@ const Content = ({
               )}
             </TabPanel>
             <TabPanel>
-              <p>
-                <b>Favortie</b>
-              </p>
+              <div className="favorites-section">
+                {favorites.length > 0 && (
+                  <div className="search-history-section">
+                    <h2>Favorites</h2>
+                    <ul>
+                      {favorites.map((term, index) => (
+                        <li key={index}>
+                          <span onClick={() => handleClickFavorites(term)}>{term}</span>
+                          <button onClick={() => handleRemoveFromFavorites(term)}>Remove</button>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
+              </div>
             </TabPanel>
           </Tabs>
         </div>
@@ -192,6 +214,9 @@ const Content = ({
               </button>
               <button className="au-button" onClick={blurResultDefinition}>
                 Blur Definition
+              </button>
+              <button className="au-button" onClick={handleAddToFavorites}>
+                Add to Favorites
               </button>
             </div>
           </div>

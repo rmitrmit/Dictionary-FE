@@ -9,7 +9,6 @@ const Dictionary = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [suggestions, setSuggestions] = useState([]);
   const [searchHistory, setSearchHistory] = useState([]);
-  const [favorites, setFavorites] = useState([]); 
   const [randomWord, setRandomWord] = useState(null);
   const [IELTS, setIELTSData] = useState([]);
   const [TOEFL, setTOEFLData] = useState([]);
@@ -39,10 +38,10 @@ const Dictionary = () => {
     fetchSearchHistory();
     fetchIELTS();
     fetchTOEFL();
-    fetchFavorites();
 
   }, []);
 
+  // auto complete
   useEffect(() => {
     if (inpWord.length >= 1) {
       fetch(`http://localhost:5000/autocomplete/${inpWord}`)
@@ -58,53 +57,41 @@ const Dictionary = () => {
       setSuggestions([]);
     }
   }, [inpWord]);
+// search function
+const handleSearchWord = (wordToSearch) => {
+  setIsLoading(true);
+  setError("");
+  setDisplayedWord(wordToSearch);
 
-  const handleSearchWord = (wordToSearch) => {
-    setIsLoading(true);
-    setError("");
-    setDisplayedWord(wordToSearch);
-
-    fetch(`http://localhost:5000/search/${wordToSearch}`)
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error("Word not found in the database.");
-        }
-        return response.json();
-      })
-      .then((data) => {
-        setWordData(data);
-        setIsLoading(false);
-        // Add the searched word to the search history
-        setSearchHistory((prevHistory) => [
-          ...new Set([wordToSearch, ...prevHistory]),
-        ]);
-
-      })
-      .catch((error) => {
-        setWordData(null);
-        setError(error.message);
-        setIsLoading(false);
-      });
-  };
-
-  
-const handleAddToFavorites = () => {
-  // Add the displayed word to favorites
-  setFavorites((prevFavorites) => [
-    ...new Set([inpWord, ...(Array.isArray(prevFavorites) ? prevFavorites : [])]),
-  ]);
-  
-  fetch(`http://localhost:5000/api/favorite/${inpWord}`, {
-    method: 'POST',
-  })
+  fetch(`http://localhost:5000/search/${wordToSearch}`)
     .then((response) => {
       if (!response.ok) {
-        throw new Error('Failed to mark word as favorite.');
+        throw new Error("Word not found in the database.");
       }
-      console.log('Word marked as favorite!');
+      return response.json();
+    })
+    .then((data) => {
+      setWordData(data);
+      setIsLoading(false);
+
+      // POST to guest search history
+      fetch('http://localhost:5000/api/guestSearchHistory', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ term: wordToSearch }),
+      });
+      
+      // Add the searched word to the search history
+      setSearchHistory((prevHistory) => [
+        ...new Set([wordToSearch, ...prevHistory]),
+      ]);
     })
     .catch((error) => {
-      console.error('Error marking word as favorite:', error);
+      setWordData(null);
+      setError(error.message);
+      setIsLoading(false);
     });
 };
 
@@ -114,36 +101,42 @@ const handleAddToFavorites = () => {
     
   };
 
+  // guest history in the credential.db
   const fetchSearchHistory = async () => {
     try {
-      const response = await fetch("http://localhost:5000/api/searchHistory");
+      const response = await fetch("http://localhost:5000/api/guestSearchHistory");
       const data = await response.json();
   
-      // Use a Set to filter out duplicates
-      const uniqueSearchHistory = Array.from(new Set(data));
+      // Map over the rows to get terms
+      const terms = data.map((row) => row.term);
   
-      setSearchHistory(uniqueSearchHistory);
+      setSearchHistory(terms);
     } catch (error) {
-      console.error("Error fetching search history:", error);
+      console.error("Error fetching guest search history:", error);
     }
   };
   
-
-  const fetchFavorites = async () => {
+  // Now the historyy search can be clear or delete for a clean website.
+  const handleClearHistory = async () => {
     try {
-      const response = await fetch("http://localhost:5000/api/favorites");
+      const response = await fetch("http://localhost:5000/api/guestSearchHistory", {
+        method: 'DELETE',
+      });
       const data = await response.json();
   
-      // Use a Set to filter out duplicates
-      const uniqueFavorites = Array.from(new Set(data));
-  
-      setFavorites(uniqueFavorites);
+      if (data.success) {
+        setSearchHistory([]); // Clear the state after successful deletion
+        alert("Search history cleared.");
+      } else {
+        alert("Failed to clear search history.");
+      }
     } catch (error) {
-      console.error("Error fetching favorites:", error);
+      console.error("Error clearing guest search history:", error);
     }
   };
-  
 
+
+  //Ielts react tab
   const fetchIELTS = async () => {
     try {
       const response = await fetch("http://localhost:5000/api/IELTS");
@@ -155,6 +148,8 @@ const handleAddToFavorites = () => {
       console.error("Error fetching IELTS:", error);
     }
   };
+
+  //TOEFL react tab
   const fetchTOEFL = async () => {
     try {
       const response = await fetch("http://localhost:5000/api/TOEFL");
@@ -178,14 +173,12 @@ const handleAddToFavorites = () => {
         randomWord={randomWord}
         isLoading={isLoading}
         handleSearchWord={handleSearchWord}
-        handleAddToFavorites={handleAddToFavorites}
         suggestions={suggestions}
         onSelectSuggestion={onSelectSuggestion}
         searchHistory={searchHistory}
         IELTS={IELTS}
         TOEFL={TOEFL}
-        favorites={favorites}
-  
+        handleClearHistory={handleClearHistory}
       />
 
       {/* Additional content or components can be added here */}
