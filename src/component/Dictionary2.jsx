@@ -138,7 +138,9 @@ const handleAddToFavorites = () => {
     console.error('User ID is not set. Please log in.');
     return;
   }
-  fetch(`http://localhost:5000/api/favorite/${inpWord}`, {
+  const wordToAdd = displayedWord || inpWord;
+
+  fetch(`http://localhost:5000/api/favorite/${wordToAdd}`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -153,7 +155,7 @@ const handleAddToFavorites = () => {
   })
   .then(data => {
     if (data.success) {
-      alert(`"${inpWord}" added to favorites.`);
+      alert(`"${wordToAdd}" added to favorites.`);
       fetchFavorites(userId);
     }else {
       alert(data.message);
