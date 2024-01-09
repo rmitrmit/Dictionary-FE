@@ -13,7 +13,6 @@ const Content = ({
   handleSearchWord,
   suggestions,
   onSelectSuggestion,
-  searchHistory,
   TOEFL,
   IELTS,
   favorites,
@@ -86,7 +85,6 @@ const Content = ({
           {isLoading ? "Searching..." : "Search"}
         </button>
       </form>
-
       {/* Display Main Tabs*/}
       <div className="cross-section">
         <div className="half-left-section">
@@ -100,27 +98,25 @@ const Content = ({
             </TabList>
 
             <TabPanel>
-              <p>
-                {" "}
-                <div className="history-section">
-                  {userSearchHistory.length > 0 ? (
-                    <div className="search-history-section">
-                      <h2>User Search History</h2>
-                      <ul>
-                        {userSearchHistory.map((term, index) => (
-                          <li key={index} onClick={() => handleClickHistory(term)}>
-                            {term}
-                          </li>
-                        ))}
-                      </ul>
-                      <button onClick={handleClearUserSearchHistory}>Clear History</button>
-                    </div>
-                  ) : (
-                    <p>No search history found.</p>
-                  )}
-                </div>
-              </p>
+              <div className="history-section">
+                {userSearchHistory.length > 0 ? (
+                  <div className="search-history-section">
+                    <h2>User Search History</h2>
+                    <ul>
+                      {userSearchHistory.map((term, index) => (
+                        <li key={index} onClick={() => handleClickHistory(term)}>
+                          {term}
+                        </li>
+                      ))}
+                    </ul>
+                    <button onClick={handleClearUserSearchHistory}>Clear History</button>
+                  </div>
+                ) : (
+                  <p>No search history found.</p>
+                )}
+              </div>
             </TabPanel>
+
             <TabPanel>
               {/* Display TOEFL */}
               {TOEFL && TOEFL.length > 0 && (
@@ -177,12 +173,12 @@ const Content = ({
             {wordData && (
               <div className="search-results-box">
                 <div className="result-header">
-                  <h3 className="result-word">{wordData.lemma}</h3>
+                  <h2 className="result-word">{wordData.lemma}</h2>
                   {/* Audio will be put here later */}
                 </div>
                 <div className="meaning">
-                  <p className="result-definition">{wordData.definition}</p>
-                  <p>
+                  <h5 className="result-definition">{wordData.definition}</h5>
+                  <h5>
                     <span className="syn">
                       Synonyms:{" "}
                       {wordData.synonyms ? (
@@ -192,8 +188,8 @@ const Content = ({
                         <p>"There's no matched synonyms"</p>
                       )}
                     </span>
-                  </p>
-                  <p>
+                  </h5>
+                  <h5>
                     <span className="ant">
                       Antonyms:{" "}
                       {wordData.antonyms ? (
@@ -203,7 +199,7 @@ const Content = ({
                         <p>"There's no matched antonyms"</p>
                       )}
                     </span>
-                  </p>
+                  </h5>
                 </div>
               </div>
             )}

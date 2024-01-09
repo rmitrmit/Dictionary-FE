@@ -9,7 +9,6 @@ const Dictionary = () => {
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [suggestions, setSuggestions] = useState([]);
-  const [searchHistory, setSearchHistory] = useState([]);
   const [favorites, setFavorites] = useState([]);
   const [randomWord, setRandomWord] = useState(null);
   const [IELTS, setIELTSData] = useState([]);
@@ -28,7 +27,6 @@ const Dictionary = () => {
 
   useEffect(() => {
     // Fetch search history from the server when the component mounts
-    fetchSearchHistory();
     fetchIELTS();
     fetchTOEFL();
     if (userId) {
@@ -90,22 +88,6 @@ const handleSearchWord = wordToSearch => {
     setInpWord(suggestion);
     handleSearchWord(suggestion);
   };
-
-
-//Seacrch history
-  const fetchSearchHistory = async () => {
-  try {
-    // Update the URL according to your server's endpoint
-    const response = await fetch('http://localhost:5000/api/searchHistory');
-    if (!response.ok) {
-      throw new Error('Network response was not ok');
-    }
-    const data = await response.json();
-    setSearchHistory(data);
-  } catch (error) {
-    console.error("Error fetching search history:", error);
-  }
-};
 
   // Fetch user search history
   const fetchUserSearchHistory = (userId) => {
@@ -256,7 +238,6 @@ const handleRemoveFromFavorites = (wordToRemove) => {
         handleAddToFavorites={handleAddToFavorites}
         suggestions={suggestions}
         onSelectSuggestion={onSelectSuggestion}
-        searchHistory={searchHistory}
         IELTS={IELTS}
         TOEFL={TOEFL}
         favorites={favorites}

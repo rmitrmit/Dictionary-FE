@@ -97,8 +97,6 @@ const Content = ({
               <Tab>IELTS</Tab>
             </TabList>
             <TabPanel>
-              <p>
-                {" "}
                 <div className="history-section">
                   {searchHistory.length > 0 ? (
                     <div className="search-history-section">
@@ -120,7 +118,6 @@ const Content = ({
                     <p>No search history found.</p>
                   )}
                 </div>
-              </p>
             </TabPanel>
             
             <TabPanel>
@@ -152,11 +149,6 @@ const Content = ({
                   </ul>
                 </div>
               )}
-            </TabPanel>
-            <TabPanel>
-              <p>
-                <b>Favorites</b>
-              </p>
             </TabPanel>
           </Tabs>
         </div>
