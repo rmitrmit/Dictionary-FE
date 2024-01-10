@@ -1,7 +1,7 @@
 import React from "react";
 import Autocomplete from "./Autocomplete";
 import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
-import "react-tabs/style/react-tabs.css";
+import "react-tabs/style/react-tabs.css"; // tabs styles
 
 const Content = ({
   inpWord,
@@ -16,28 +16,22 @@ const Content = ({
   searchHistory,
   TOEFL,
   IELTS,
-  handleClearHistory
+  handleClearHistory,
 }) => {
-  const blurResultWord = () => {
-    var wordMeaning = document.getElementsByClassName("result-word");
-    for (var i = 0; i < wordMeaning.length; i++) {
-      if (wordMeaning[i].style.backgroundColor === "black") {
-        wordMeaning[i].style.backgroundColor = "";
-      } else {
-        wordMeaning[i].style.backgroundColor = "black";
-      }
-    }
-  };
   const blurResultDefinition = () => {
     var wordMeaning = document.getElementsByClassName("result-definition");
+    var blurButton = document.getElementById("blurResultDefinitionButton");
     for (var i = 0; i < wordMeaning.length; i++) {
       if (wordMeaning[i].style.backgroundColor === "black") {
         wordMeaning[i].style.backgroundColor = "";
+        blurButton.textContent = "Blur Definition";
       } else {
+        blurButton.textContent = "Disable blur";
         wordMeaning[i].style.backgroundColor = "black";
       }
     }
   };
+
   const onSubmitSearch = (event) => {
     event.preventDefault();
     handleSearchWord(inpWord);
@@ -54,7 +48,6 @@ const Content = ({
   const handleClickTOEFL = (lemma) => {
     handleSearchWord(lemma);
   };
- 
 
   return (
     <div className="dictionary-app">
@@ -97,29 +90,35 @@ const Content = ({
               <Tab>IELTS</Tab>
             </TabList>
             <TabPanel>
-                <div className="history-section">
-                  {searchHistory.length > 0 ? (
-                    <div className="search-history-section">
-                      <div className="search-history-header">
-                        <h2>Search History</h2>
-                        <button className="clear-history-button" onClick={handleClearHistory}>
+              <div className="history-section">
+                {searchHistory.length > 0 ? (
+                  <div className="search-history-section">
+                    <div className="search-history-header">
+                      <h2>Search History</h2>
+                      <button
+                        className="clear-history-button au-button"
+                        onClick={handleClearHistory}
+                      >
                         Clear History
                       </button>
-                      </div>
-                      <ul>
-                        {searchHistory.map((term, index) => (
-                          <li key={index} onClick={() => handleClickHistory(term)}>
-                            {term}
-                          </li>
-                        ))}
-                      </ul>
                     </div>
-                  ) : (
-                    <p>No search history found.</p>
-                  )}
-                </div>
+                    <ul>
+                      {searchHistory.map((term, index) => (
+                        <li
+                          key={index}
+                          onClick={() => handleClickHistory(term)}
+                        >
+                          {term}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                ) : (
+                  <p>No search history found.</p>
+                )}
+              </div>
             </TabPanel>
-            
+
             <TabPanel>
               {/* Display TOEFL */}
               {TOEFL && TOEFL.length > 0 && (
@@ -155,7 +154,6 @@ const Content = ({
 
         <div className="half-right-section">
           <h2>Search Results</h2>
-
           <div className="search-results-container">
             {error && <div className="error">{error}</div>}
             {wordData && (
@@ -191,18 +189,24 @@ const Content = ({
                 </div>
               </div>
             )}
-            <div className="blur-buttons">
-              {" "}
-              <button className="au-button" onClick={blurResultWord}>
-                Blur Word
-              </button>
-              <button className="au-button" onClick={blurResultDefinition}>
+          </div>
+          <br></br>
+          <div className="blur-buttons">
+            <div class="tooltip">
+              <button
+                className="au-button"
+                id="blurResultDefinitionButton"
+                onClick={blurResultDefinition}
+                data-tip="Blur Definition"
+              >
                 Blur Definition
-              </button>           
+              </button>{" "}
+              <span class="tooltiptext">
+                For student who wants to memorize this word!
+              </span>
             </div>
           </div>
 
-          <br></br>
           <div className="todays-sentence">
             <h2>Today's Sentence</h2>
             {/* Check if randomWord is defined before trying to access its properties */}
@@ -221,4 +225,3 @@ const Content = ({
 };
 
 export default Content;
-

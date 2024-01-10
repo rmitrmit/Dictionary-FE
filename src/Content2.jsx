@@ -1,7 +1,8 @@
 import React from "react";
 import Autocomplete from "./Autocomplete";
 import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
-import "react-tabs/style/react-tabs.css";
+import "react-tabs/style/react-tabs.css"; // tabs styles
+import "react-tooltip/dist/react-tooltip.css"; // tooltip styles
 
 const Content = ({
   inpWord,
@@ -19,24 +20,18 @@ const Content = ({
   handleAddToFavorites,
   handleRemoveFromFavorites,
   userSearchHistory,
-  handleClearUserSearchHistory
+  handleClearUserSearchHistory,
+  isWordFavorited
 }) => {
-  const blurResultWord = () => {
-    var wordMeaning = document.getElementsByClassName("result-word");
-    for (var i = 0; i < wordMeaning.length; i++) {
-      if (wordMeaning[i].style.backgroundColor === "black") {
-        wordMeaning[i].style.backgroundColor = "";
-      } else {
-        wordMeaning[i].style.backgroundColor = "black";
-      }
-    }
-  };
   const blurResultDefinition = () => {
     var wordMeaning = document.getElementsByClassName("result-definition");
+    var blurButton = document.getElementById("blurResultDefinitionButton");
     for (var i = 0; i < wordMeaning.length; i++) {
       if (wordMeaning[i].style.backgroundColor === "black") {
         wordMeaning[i].style.backgroundColor = "";
+        blurButton.textContent = "Blur Definition";
       } else {
+        blurButton.textContent = "Disable blur";
         wordMeaning[i].style.backgroundColor = "black";
       }
     }
@@ -55,20 +50,24 @@ const Content = ({
     setInpWord(term);
     handleSearchWord(term);
   };
-  
+
   const handleClickIELTS = (lemma) => {
-    handleSearchWord(lemma);
+    setInpWord(lemma); 
+    handleSearchWord(lemma); 
   };
   const handleClickTOEFL = (lemma) => {
+    setInpWord(lemma); 
     handleSearchWord(lemma);
   };
 
   return (
     <div className="dictionary-app">
       <header className="header">
-        <p>
-          BITS <span>- English Dictionary</span>
-        </p>
+        <a href="/User" className="logo">
+          <p>
+            BITS <span>- English Dictionary</span>
+          </p>
+        </a>
         <button className="au-button">
           <a href="/">Logout</a>
         </button>
@@ -77,7 +76,7 @@ const Content = ({
       <form className="search-box" onSubmit={onSubmitSearch}>
         <Autocomplete
           suggestions={suggestions}
-          value={inpWord}
+          value={inpWord} // The search bar's value should be tied to inpWord state
           onChange={(value) => setInpWord(value)}
           onSelect={onSelectSuggestion}
         />
@@ -102,14 +101,22 @@ const Content = ({
                 {userSearchHistory.length > 0 ? (
                   <div className="search-history-section">
                     <h2>User Search History</h2>
+                    <button
+                      className="au-button"
+                      onClick={handleClearUserSearchHistory}
+                    >
+                      Clear History
+                    </button>
                     <ul>
                       {userSearchHistory.map((term, index) => (
-                        <li key={index} onClick={() => handleClickHistory(term)}>
+                        <li
+                          key={index}
+                          onClick={() => handleClickHistory(term)}
+                        >
                           {term}
                         </li>
                       ))}
                     </ul>
-                    <button onClick={handleClearUserSearchHistory}>Clear History</button>
                   </div>
                 ) : (
                   <p>No search history found.</p>
@@ -155,8 +162,15 @@ const Content = ({
                     <ul>
                       {favorites.map((term, index) => (
                         <li key={index}>
-                          <span onClick={() => handleClickFavorites(term)}>{term}</span>
-                          <button onClick={() => handleRemoveFromFavorites(term)}>Remove</button>
+                          <span onClick={() => handleClickFavorites(term)}>
+                            {term}
+                          </span>
+                          <button
+                            className="au-button"
+                            onClick={() => handleRemoveFromFavorites(term)}
+                          >
+                            Remove
+                          </button>
                         </li>
                       ))}
                     </ul>
@@ -203,20 +217,33 @@ const Content = ({
                 </div>
               </div>
             )}
-            <div className="blur-buttons">
-              {" "}
-              <button className="au-button" onClick={blurResultWord}>
-                Blur Word
-              </button>
-              <button className="au-button" onClick={blurResultDefinition}>
-                Blur Definition
-              </button>
-              <button className="au-button" onClick={handleAddToFavorites}>
-                Add to Favorites
-              </button>
-            </div>
           </div>
           <br></br>
+          <div className="blur-buttons">
+            <div className="tooltip">
+              {" "}
+              <button
+                className="au-button"
+                id="blurResultDefinitionButton"
+                onClick={blurResultDefinition}
+              >
+                Blur Definition
+              </button>
+            </div>
+
+            <button
+              className="au-button favorite-button"
+              onClick={() => {
+                if (isWordFavorited(wordData?.lemma)) {
+                  handleRemoveFromFavorites(wordData?.lemma);
+                } else {
+                  handleAddToFavorites();
+                }
+              }}
+            >
+              {isWordFavorited(wordData?.lemma) ? 'Remove Favorites' : 'Add to Favorites'}
+            </button>
+          </div>
           <div className="todays-sentence">
             <h2>Today's Sentence</h2>
             {/* Check if randomWord is defined before trying to access its properties */}

@@ -1,32 +1,51 @@
 import React from "react";
-import { Form, Input, Button} from "antd";
+import { Form, Input, Button } from "antd";
 import { UserOutlined, LockOutlined } from "@ant-design/icons";
-import axios from 'axios';
+import axios from "axios";
+import { useNavigate } from "react-router-dom"; // Import useNavigate
 
 export default function Signup() {
+  const navigate = useNavigate();
   const onFinish = async (values) => {
     const { username, password } = values;
     try {
-      const res = await axios.post('http://localhost:3000/Signup', { username, password });
+      const res = await axios.post("http://localhost:3000/Signup", {
+        username,
+        password,
+      });
       if (res.data.success) {
-        localStorage.setItem('userId', res.data.userId);
+        localStorage.setItem("userId", res.data.userId);
         alert("Signup successful! You can now log in.");
         // Redirect to login page or perform any other actions after successful signup
       } else {
         alert("Signup failed. Please try again.");
       }
     } catch (error) {
-      console.error('An error occurred:', error);
+      console.error("An error occurred:", error);
       // Handle error appropriately
     }
   };
 
   return (
-    <div style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
-      <div style={{ width: '400' }}>
-        <h1 style={{ textAlign: 'center' }}>
-          SignUp
-        </h1>
+    <div
+      style={{
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+      }}
+    >
+      <div style={{ width: "400" }}>
+        <Button
+          type="primary"
+          style={{ backgroundColor: "red", right: "20px" }}
+          onClick={() => {
+            navigate("/");
+          }}
+        >
+          Back
+        </Button>
+
+        <h1 style={{ textAlign: "center" }}>SignUp</h1>
         <Form
           name="normal_signup"
           className="signup-form"
@@ -66,15 +85,15 @@ export default function Signup() {
           </Form.Item>
 
           <Form.Item>
-          <Button
-            type="primary"
-            htmlType="submit"
-            className="login-form-button"
-          >
-            Signup
-          </Button>
-           Or <a href="/Login">Login now!</a>
-        </Form.Item>
+            <Button
+              type="primary"
+              htmlType="submit"
+              className="login-form-button"
+            >
+              Signup
+            </Button>
+            Or <a href="/Login">Login now!</a>
+          </Form.Item>
         </Form>
       </div>
     </div>

@@ -48,6 +48,7 @@
   font-size: 25px;
 }
 .au-button {
+  color: white;
   background-image: linear-gradient(
     92.88deg,
     #455eb5 9.16%,
@@ -76,6 +77,7 @@
   width: 6vw;
   align-items: center;
 }
+
 @media screen and (max-width: 1600px) {
   .au-button {
     padding: 0;
@@ -87,13 +89,16 @@
   box-shadow: rgba(80, 63, 205, 0.5) 0 1px 30px;
   transition-duration: 0.5s;
 }
+
 .au-button a {
   text-decoration: none;
   color: white;
   text-align: center;
   width: fit-content;
 }
-
+.blur-button-toggle {
+  background-color: rgba(20, 15, 53, 0.5);
+}
 .dictionary-app {
   display: flex;
   flex-direction: column;
@@ -450,6 +455,7 @@
   .au-button {
     font-size: 12px;
     height: 4vh;
+    color: white;
   }
 
   .cross-section {
@@ -547,4 +553,35 @@
     margin-left: 50px;
     width: 100px;
   }
+}
+/* Tooltip container */
+.tooltip {
+  position: relative;
+  display: inline-block;
+  border-bottom: 1px dotted black; /* If you want dots under the hoverable text */
+}
+
+/* Tooltip text */
+.tooltip .tooltiptext {
+  visibility: hidden;
+  width: 120px;
+  background-color: rgba(105, 105, 105, 0.548);
+  color: #fff;
+  text-align: center;
+  padding: 5px 0;
+  border-radius: 6px;
+
+  /* Position the tooltip text - see examples below! */
+  position: absolute;
+  z-index: 1;
+}
+.tooltip .tooltiptext {
+  width: 120px;
+  bottom: 100%;
+  left: 50%;
+  margin-left: -60px; /* Use half of the width (120/2 = 60), to center the tooltip */
+}
+/* Show the tooltip text when you mouse over the tooltip container */
+.tooltip:hover .tooltiptext {
+  visibility: visible;
 }
