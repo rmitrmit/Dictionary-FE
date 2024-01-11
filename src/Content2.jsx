@@ -3,6 +3,7 @@ import Autocomplete from "./Autocomplete";
 import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
 import "react-tabs/style/react-tabs.css"; // tabs styles
 import "react-tooltip/dist/react-tooltip.css"; // tooltip styles
+import { useNavigate } from "react-router-dom";
 
 const Content = ({
   inpWord,
@@ -23,6 +24,11 @@ const Content = ({
   handleClearUserSearchHistory,
   isWordFavorited
 }) => {
+  const navigate = useNavigate();
+
+  const userId = localStorage.getItem('userId');
+  const username = localStorage.getItem('username');
+
   const blurResultDefinition = () => {
     var wordMeaning = document.getElementsByClassName("result-definition");
     var blurButton = document.getElementById("blurResultDefinitionButton");
@@ -59,6 +65,15 @@ const Content = ({
     setInpWord(lemma); 
     handleSearchWord(lemma);
   };
+  
+  const handleLogout = () => {
+    // Xóa userId khỏi localStorage
+    localStorage.removeItem("userId");
+    // Xoá username khỏi localStorage
+    localStorage.removeItem("username")
+    // Thực hiện chuyển hướng đến trang đăng nhập
+    navigate("/");
+  };
 
   return (
     <div className="dictionary-app">
@@ -68,15 +83,16 @@ const Content = ({
             BITS <span>- English Dictionary</span>
           </p>
         </a>
-        <button className="au-button">
-          <a href="/">Logout</a>
+        <span style={{ fontSize: '14px', marginRight: '-1000px' }}>{username}</span>
+        <button className="au-button" onClick={handleLogout}>
+        Logout 
         </button>
       </header>
 
       <form className="search-box" onSubmit={onSubmitSearch}>
         <Autocomplete
           suggestions={suggestions}
-          value={inpWord} // The search bar's value should be tied to inpWord state
+          value={inpWord} 
           onChange={(value) => setInpWord(value)}
           onSelect={onSelectSuggestion}
         />
