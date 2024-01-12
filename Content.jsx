@@ -185,7 +185,7 @@ const Content = ({
           </div>
           <br></br>
           <div className="blur-buttons">
-            <div class="tooltip">
+            <div className="tooltip">
               <button
                 className="au-button"
                 id="blurResultDefinitionButton"
@@ -194,7 +194,7 @@ const Content = ({
               >
                 Blur Definition
               </button>{" "}
-              <span class="tooltiptext">
+              <span className="tooltiptext">
                 For student who wants to memorize this word!
               </span>
             </div>

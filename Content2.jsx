@@ -25,8 +25,6 @@ const Content = ({
   isWordFavorited
 }) => {
   const navigate = useNavigate();
-
-  const userId = localStorage.getItem('userId');
   const username = localStorage.getItem('username');
 
   const blurResultDefinition = () => {
@@ -232,15 +230,19 @@ const Content = ({
           <br></br>
           <div className="blur-buttons">
             <div className="tooltip">
-              {" "}
               <button
                 className="au-button"
                 id="blurResultDefinitionButton"
                 onClick={blurResultDefinition}
+                data-tip="Blur Definition"
               >
                 Blur Definition
-              </button>
+              </button>{" "}
+              <span className="tooltiptext">
+                For student who wants to memorize this word!
+              </span>
             </div>
+          
 
             <button
               className="au-button favorite-button"
