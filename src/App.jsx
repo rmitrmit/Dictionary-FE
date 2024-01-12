@@ -1,12 +1,15 @@
 // App.jsx
 import React from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import './App.css';
-import Dictionary from './component/Dictionary'; // Điều chỉnh đường dẫn của Dictionary
-import Login from './component/Login'; // Điều chỉnh đường dẫn của Login
-import Signup from './component/Signup'; // Điều chỉnh đường dẫn của Signup
-import Dictionary2 from './component/Dictionary2' // Điều chỉnh đường dẫn khi đăng nhập thành công
+import Dictionary from './component/Dictionary';
+import Login from './component/Login';
+import Signup from './component/Signup';
+import Dictionary2 from './component/Dictionary2';
+
 function App() {
+  const userId = localStorage.getItem('userId');
+
   return (
     <Router>
       <Routes>
