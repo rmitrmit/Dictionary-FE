@@ -91,31 +91,24 @@ const Content = ({
             </TabList>
             <TabPanel>
               <div className="history-section">
-                {searchHistory.length > 0 ? (
-                  <div className="search-history-section">
-                    <div className="search-history-header">
-                      <h2>Search History</h2>
-                      <button
-                        className="clear-history-button au-button"
-                        onClick={handleClearHistory}
-                      >
-                        Clear History
-                      </button>
-                    </div>
+                <div className="search-history-section">
+                    <h2>Search History</h2>
+                    <button
+                      className="au-button" onClick={handleClearHistory}>
+                      Clear History
+                    </button>
+                  {searchHistory.length > 0 ? (
                     <ul>
                       {searchHistory.map((term, index) => (
-                        <li
-                          key={index}
-                          onClick={() => handleClickHistory(term)}
-                        >
+                        <li key={index} onClick={() => handleClickHistory(term)}>
                           {term}
                         </li>
                       ))}
                     </ul>
-                  </div>
-                ) : (
-                  <p>No search history found.</p>
-                )}
+                  ) : (
+                    <ul style={{ padding: '1rem' }}>No search history found.</ul>
+                  )}
+                </div>
               </div>
             </TabPanel>
 
@@ -192,7 +185,7 @@ const Content = ({
           </div>
           <br></br>
           <div className="blur-buttons">
-            <div class="tooltip">
+            <div className="tooltip">
               <button
                 className="au-button"
                 id="blurResultDefinitionButton"
@@ -201,7 +194,7 @@ const Content = ({
               >
                 Blur Definition
               </button>{" "}
-              <span class="tooltiptext">
+              <span className="tooltiptext">
                 For student who wants to memorize this word!
               </span>
             </div>
