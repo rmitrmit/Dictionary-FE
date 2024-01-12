@@ -6,7 +6,6 @@ import "react-tabs/style/react-tabs.css";
 const Content = ({
   inpWord,
   setInpWord,
-  displayedWord,
   randomWord,
   wordData,
   error,
@@ -17,7 +16,28 @@ const Content = ({
   searchHistory,
   TOEFL,
   IELTS,
+  handleClearHistory
 }) => {
+  const blurResultWord = () => {
+    var wordMeaning = document.getElementsByClassName("result-word");
+    for (var i = 0; i < wordMeaning.length; i++) {
+      if (wordMeaning[i].style.backgroundColor === "black") {
+        wordMeaning[i].style.backgroundColor = "";
+      } else {
+        wordMeaning[i].style.backgroundColor = "black";
+      }
+    }
+  };
+  const blurResultDefinition = () => {
+    var wordMeaning = document.getElementsByClassName("result-definition");
+    for (var i = 0; i < wordMeaning.length; i++) {
+      if (wordMeaning[i].style.backgroundColor === "black") {
+        wordMeaning[i].style.backgroundColor = "";
+      } else {
+        wordMeaning[i].style.backgroundColor = "black";
+      }
+    }
+  };
   const onSubmitSearch = (event) => {
     event.preventDefault();
     handleSearchWord(inpWord);
@@ -27,19 +47,23 @@ const Content = ({
     setInpWord(term);
     handleSearchWord(term);
   };
+
   const handleClickIELTS = (lemma) => {
     handleSearchWord(lemma);
   };
   const handleClickTOEFL = (lemma) => {
     handleSearchWord(lemma);
   };
+ 
 
   return (
     <div className="dictionary-app">
       <header className="header">
-        <p>
-          BITS <span>- English Dictionary</span>
-        </p>
+        <a href="/" className="logo">
+          <p>
+            BITS <span>- English Dictionary</span>
+          </p>
+        </a>
         <div className="ath-buttons">
           <button className="au-button">
             <a href="/Login">Login</a>
@@ -72,29 +96,30 @@ const Content = ({
               <Tab>TOEFL</Tab>
               <Tab>IELTS</Tab>
             </TabList>
-
             <TabPanel>
-              <p>
-                {" "}
                 <div className="history-section">
-                  {searchHistory.length > 0 && (
+                  {searchHistory.length > 0 ? (
                     <div className="search-history-section">
-                      <h2>Search History</h2>
+                      <div className="search-history-header">
+                        <h2>Search History</h2>
+                        <button className="clear-history-button" onClick={handleClearHistory}>
+                        Clear History
+                      </button>
+                      </div>
                       <ul>
                         {searchHistory.map((term, index) => (
-                          <li
-                            key={index}
-                            onClick={() => handleClickHistory(term)}
-                          >
+                          <li key={index} onClick={() => handleClickHistory(term)}>
                             {term}
                           </li>
                         ))}
                       </ul>
                     </div>
+                  ) : (
+                    <p>No search history found.</p>
                   )}
                 </div>
-              </p>
             </TabPanel>
+            
             <TabPanel>
               {/* Display TOEFL */}
               {TOEFL && TOEFL.length > 0 && (
@@ -127,8 +152,10 @@ const Content = ({
             </TabPanel>
           </Tabs>
         </div>
+
         <div className="half-right-section">
           <h2>Search Results</h2>
+
           <div className="search-results-container">
             {error && <div className="error">{error}</div>}
             {wordData && (
@@ -164,7 +191,17 @@ const Content = ({
                 </div>
               </div>
             )}
+            <div className="blur-buttons">
+              {" "}
+              <button className="au-button" onClick={blurResultWord}>
+                Blur Word
+              </button>
+              <button className="au-button" onClick={blurResultDefinition}>
+                Blur Definition
+              </button>           
+            </div>
           </div>
+
           <br></br>
           <div className="todays-sentence">
             <h2>Today's Sentence</h2>
@@ -184,3 +221,4 @@ const Content = ({
 };
 
 export default Content;
+

@@ -13,6 +13,9 @@ const Dictionary = () => {
   const [IELTS, setIELTSData] = useState([]);
   const [TOEFL, setTOEFLData] = useState([]);
 
+
+
+  
   // Today sentence added
   useEffect(() => {
     fetch("http://localhost:5000/randomWord")
@@ -35,8 +38,10 @@ const Dictionary = () => {
     fetchSearchHistory();
     fetchIELTS();
     fetchTOEFL();
+
   }, []);
 
+  // auto complete
   useEffect(() => {
     if (inpWord.length >= 1) {
       fetch(`http://localhost:5000/autocomplete/${inpWord}`)
@@ -52,48 +57,86 @@ const Dictionary = () => {
       setSuggestions([]);
     }
   }, [inpWord]);
+// search function
+const handleSearchWord = (wordToSearch) => {
+  setIsLoading(true);
+  setError("");
+  setDisplayedWord(wordToSearch);
 
-  const handleSearchWord = (wordToSearch) => {
-    setIsLoading(true);
-    setError("");
-    setDisplayedWord(wordToSearch);
+  fetch(`http://localhost:5000/search/${wordToSearch}`)
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error("Word not found in the database.");
+      }
+      return response.json();
+    })
+    .then((data) => {
+      setWordData(data);
+      setIsLoading(false);
 
-    fetch(`http://localhost:5000/search/${wordToSearch}`)
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error("Word not found in the database.");
-        }
-        return response.json();
-      })
-      .then((data) => {
-        setWordData(data);
-        setIsLoading(false);
-        // Add the searched word to the search history
-        setSearchHistory((prevHistory) => [
-          ...new Set([wordToSearch, ...prevHistory]),
-        ]);
-      })
-      .catch((error) => {
-        setWordData(null);
-        setError(error.message);
-        setIsLoading(false);
+      // POST to guest search history
+      fetch('http://localhost:5000/api/guestSearchHistory', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ term: wordToSearch }),
       });
-  };
+      
+      // Add the searched word to the search history
+      setSearchHistory((prevHistory) => [
+        ...new Set([wordToSearch, ...prevHistory]),
+      ]);
+    })
+    .catch((error) => {
+      setWordData(null);
+      setError(error.message);
+      setIsLoading(false);
+    });
+};
 
   const onSelectSuggestion = (suggestion) => {
     setInpWord(suggestion);
     handleSearchWord(suggestion);
+    
   };
 
+  // guest history in the credential.db
   const fetchSearchHistory = async () => {
     try {
-      const response = await fetch("http://localhost:5000/api/searchHistory");
+      const response = await fetch("http://localhost:5000/api/guestSearchHistory");
       const data = await response.json();
-      setSearchHistory(data);
+  
+      // Map over the rows to get terms
+      const terms = data.map((row) => row.term);
+  
+      setSearchHistory(terms);
     } catch (error) {
-      console.error("Error fetching search history:", error);
+      console.error("Error fetching guest search history:", error);
     }
   };
+  
+  // Now the historyy search can be clear or delete for a clean website.
+  const handleClearHistory = async () => {
+    try {
+      const response = await fetch("http://localhost:5000/api/guestSearchHistory", {
+        method: 'DELETE',
+      });
+      const data = await response.json();
+  
+      if (data.success) {
+        setSearchHistory([]); // Clear the state after successful deletion
+        alert("Search history cleared.");
+      } else {
+        alert("Failed to clear search history.");
+      }
+    } catch (error) {
+      console.error("Error clearing guest search history:", error);
+    }
+  };
+
+
+  //Ielts react tab
   const fetchIELTS = async () => {
     try {
       const response = await fetch("http://localhost:5000/api/IELTS");
@@ -105,6 +148,8 @@ const Dictionary = () => {
       console.error("Error fetching IELTS:", error);
     }
   };
+
+  //TOEFL react tab
   const fetchTOEFL = async () => {
     try {
       const response = await fetch("http://localhost:5000/api/TOEFL");
@@ -133,6 +178,7 @@ const Dictionary = () => {
         searchHistory={searchHistory}
         IELTS={IELTS}
         TOEFL={TOEFL}
+        handleClearHistory={handleClearHistory}
       />
 
       {/* Additional content or components can be added here */}

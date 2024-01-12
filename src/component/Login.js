@@ -13,6 +13,9 @@ export default function Login() {
       .then(res => {
         if (res.data.validation) {
           // Thực hiện chuyển hướng
+
+        // Store the userId in local storage
+          localStorage.setItem('userId', res.data.userId);
           navigate('/User'); // Chuyển hướng đến trang Dictionary
         } else {
           alert("Your Information is not correct!");
@@ -87,7 +90,7 @@ export default function Login() {
             <Checkbox>Remember me</Checkbox>
           </Form.Item>
 
-          <a className="login-form-forgot" href="">
+          <a className="login-form-forgot" href="/forgot-password">
             Forgot password
           </a>
         </Form.Item>

@@ -6,7 +6,6 @@ import "react-tabs/style/react-tabs.css";
 const Content = ({
   inpWord,
   setInpWord,
-  displayedWord,
   randomWord,
   wordData,
   error,
@@ -14,10 +13,34 @@ const Content = ({
   handleSearchWord,
   suggestions,
   onSelectSuggestion,
-  searchHistory,
   TOEFL,
   IELTS,
+  favorites,
+  handleAddToFavorites,
+  handleRemoveFromFavorites,
+  userSearchHistory,
+  handleClearUserSearchHistory
 }) => {
+  const blurResultWord = () => {
+    var wordMeaning = document.getElementsByClassName("result-word");
+    for (var i = 0; i < wordMeaning.length; i++) {
+      if (wordMeaning[i].style.backgroundColor === "black") {
+        wordMeaning[i].style.backgroundColor = "";
+      } else {
+        wordMeaning[i].style.backgroundColor = "black";
+      }
+    }
+  };
+  const blurResultDefinition = () => {
+    var wordMeaning = document.getElementsByClassName("result-definition");
+    for (var i = 0; i < wordMeaning.length; i++) {
+      if (wordMeaning[i].style.backgroundColor === "black") {
+        wordMeaning[i].style.backgroundColor = "";
+      } else {
+        wordMeaning[i].style.backgroundColor = "black";
+      }
+    }
+  };
   const onSubmitSearch = (event) => {
     event.preventDefault();
     handleSearchWord(inpWord);
@@ -27,6 +50,12 @@ const Content = ({
     setInpWord(term);
     handleSearchWord(term);
   };
+
+  const handleClickFavorites = (term) => {
+    setInpWord(term);
+    handleSearchWord(term);
+  };
+  
   const handleClickIELTS = (lemma) => {
     handleSearchWord(lemma);
   };
@@ -56,7 +85,6 @@ const Content = ({
           {isLoading ? "Searching..." : "Search"}
         </button>
       </form>
-
       {/* Display Main Tabs*/}
       <div className="cross-section">
         <div className="half-left-section">
@@ -70,27 +98,25 @@ const Content = ({
             </TabList>
 
             <TabPanel>
-              <p>
-                {" "}
-                <div className="history-section">
-                  {searchHistory.length > 0 && (
-                    <div className="search-history-section">
-                      <h2>Search History</h2>
-                      <ul>
-                        {searchHistory.map((term, index) => (
-                          <li
-                            key={index}
-                            onClick={() => handleClickHistory(term)}
-                          >
-                            {term}
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-                  )}
-                </div>
-              </p>
+              <div className="history-section">
+                {userSearchHistory.length > 0 ? (
+                  <div className="search-history-section">
+                    <h2>User Search History</h2>
+                    <ul>
+                      {userSearchHistory.map((term, index) => (
+                        <li key={index} onClick={() => handleClickHistory(term)}>
+                          {term}
+                        </li>
+                      ))}
+                    </ul>
+                    <button onClick={handleClearUserSearchHistory}>Clear History</button>
+                  </div>
+                ) : (
+                  <p>No search history found.</p>
+                )}
+              </div>
             </TabPanel>
+
             <TabPanel>
               {/* Display TOEFL */}
               {TOEFL && TOEFL.length > 0 && (
@@ -122,9 +148,21 @@ const Content = ({
               )}
             </TabPanel>
             <TabPanel>
-              <p>
-                <b>Favortie</b>
-              </p>
+              <div className="favorites-section">
+                {favorites.length > 0 && (
+                  <div className="search-history-section">
+                    <h2>Favorites</h2>
+                    <ul>
+                      {favorites.map((term, index) => (
+                        <li key={index}>
+                          <span onClick={() => handleClickFavorites(term)}>{term}</span>
+                          <button onClick={() => handleRemoveFromFavorites(term)}>Remove</button>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
+              </div>
             </TabPanel>
           </Tabs>
         </div>
@@ -135,12 +173,12 @@ const Content = ({
             {wordData && (
               <div className="search-results-box">
                 <div className="result-header">
-                  <h3 className="result-word">{wordData.lemma}</h3>
+                  <h2 className="result-word">{wordData.lemma}</h2>
                   {/* Audio will be put here later */}
                 </div>
                 <div className="meaning">
-                  <p className="result-definition">{wordData.definition}</p>
-                  <p>
+                  <h5 className="result-definition">{wordData.definition}</h5>
+                  <h5>
                     <span className="syn">
                       Synonyms:{" "}
                       {wordData.synonyms ? (
@@ -150,8 +188,8 @@ const Content = ({
                         <p>"There's no matched synonyms"</p>
                       )}
                     </span>
-                  </p>
-                  <p>
+                  </h5>
+                  <h5>
                     <span className="ant">
                       Antonyms:{" "}
                       {wordData.antonyms ? (
@@ -161,10 +199,22 @@ const Content = ({
                         <p>"There's no matched antonyms"</p>
                       )}
                     </span>
-                  </p>
+                  </h5>
                 </div>
               </div>
             )}
+            <div className="blur-buttons">
+              {" "}
+              <button className="au-button" onClick={blurResultWord}>
+                Blur Word
+              </button>
+              <button className="au-button" onClick={blurResultDefinition}>
+                Blur Definition
+              </button>
+              <button className="au-button" onClick={handleAddToFavorites}>
+                Add to Favorites
+              </button>
+            </div>
           </div>
           <br></br>
           <div className="todays-sentence">
