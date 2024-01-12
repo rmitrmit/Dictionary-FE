@@ -25,8 +25,6 @@ const Content = ({
   isWordFavorited
 }) => {
   const navigate = useNavigate();
-
-  const userId = localStorage.getItem('userId');
   const username = localStorage.getItem('username');
 
   const blurResultDefinition = () => {
@@ -114,32 +112,25 @@ const Content = ({
 
             <TabPanel>
               <div className="history-section">
-                {userSearchHistory.length > 0 ? (
-                  <div className="search-history-section">
-                    <h2>User Search History</h2>
-                    <button
-                      className="au-button"
-                      onClick={handleClearUserSearchHistory}
-                    >
-                      Clear History
-                    </button>
+                <div className="search-history-section">
+                  <h2>User Search History</h2>
+                  <button className="au-button" onClick={handleClearUserSearchHistory}>
+                    Clear History
+                  </button>
+                  {userSearchHistory.length > 0 ? (
                     <ul>
                       {userSearchHistory.map((term, index) => (
-                        <li
-                          key={index}
-                          onClick={() => handleClickHistory(term)}
-                        >
+                        <li key={index} onClick={() => handleClickHistory(term)}>
                           {term}
                         </li>
                       ))}
                     </ul>
-                  </div>
-                ) : (
-                  <p>No search history found.</p>
-                )}
+                  ) : (
+                    <ul style={{ padding: '1rem' }}>No search history found.</ul>
+                  )}
+                </div>
               </div>
             </TabPanel>
-
             <TabPanel>
               {/* Display TOEFL */}
               {TOEFL && TOEFL.length > 0 && (
@@ -171,29 +162,31 @@ const Content = ({
               )}
             </TabPanel>
             <TabPanel>
-              <div className="favorites-section">
-                {favorites.length > 0 && (
-                  <div className="search-history-section">
-                    <h2>Favorites</h2>
-                    <ul>
-                      {favorites.map((term, index) => (
-                        <li key={index}>
-                          <span onClick={() => handleClickFavorites(term)}>
-                            {term}
-                          </span>
-                          <button
-                            className="au-button"
-                            onClick={() => handleRemoveFromFavorites(term)}
-                          >
-                            Remove
-                          </button>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
+            <div className="favorites-section">
+              <div className="search-history-section">
+                <h2>Favorites</h2>
+                {favorites.length > 0 ? (
+                  <ul>
+                    {favorites.map((term, index) => (
+                      <li key={index}>
+                        <span onClick={() => handleClickFavorites(term)}>
+                          {term}
+                        </span>
+                        <button
+                          className="au-button"
+                          onClick={() => handleRemoveFromFavorites(term)}
+                        >
+                          Remove
+                        </button>
+                      </li>
+                    ))}
+                  </ul>
+                ) : (
+                  <ul style={{ padding: '1rem' }}>You dont have a favorite word</ul>
                 )}
               </div>
-            </TabPanel>
+            </div>
+          </TabPanel>
           </Tabs>
         </div>
         <div className="half-right-section">
@@ -237,15 +230,19 @@ const Content = ({
           <br></br>
           <div className="blur-buttons">
             <div className="tooltip">
-              {" "}
               <button
                 className="au-button"
                 id="blurResultDefinitionButton"
                 onClick={blurResultDefinition}
+                data-tip="Blur Definition"
               >
                 Blur Definition
-              </button>
+              </button>{" "}
+              <span className="tooltiptext">
+                For student who wants to memorize this word!
+              </span>
             </div>
+          
 
             <button
               className="au-button favorite-button"
