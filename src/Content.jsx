@@ -43,11 +43,9 @@ const Content = ({
   };
 
   const handleClickIELTS = (lemma) => {
-    setInpWord(lemma); 
-    handleSearchWord(lemma); 
+    handleSearchWord(lemma);
   };
   const handleClickTOEFL = (lemma) => {
-    setInpWord(lemma); 
     handleSearchWord(lemma);
   };
 
